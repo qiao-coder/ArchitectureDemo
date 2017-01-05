@@ -4,8 +4,8 @@ package com.tufei.architecturedemo.mvp.splash;
 import android.content.Context;
 
 import com.tufei.architecturedemo.base.mvp.BasePresenter;
-import com.tufei.architecturedemo.data.VersionTask;
 import com.tufei.architecturedemo.di.ActivityScoped;
+import com.tufei.architecturedemo.mvp.model.VersionTask;
 import com.tufei.architecturedemo.net.NetModule;
 import com.tufei.architecturedemo.utils.AppUtil;
 import com.tufei.architecturedemo.utils.LogUtil;
@@ -76,12 +76,11 @@ final class SplashPresenter extends BasePresenter implements SplashContract.Pres
                 .getVersion()
                 .subscribe(
                         version -> {
+                            LogUtil.d(TAG, "查询版本信息成功。");
                             if (version.getVersion().equals(AppUtil.getVersion(mContext))) {
-                                LogUtil.d(TAG, "版本号一致，不需要更新。");
                                 mView.showMainActivity();
                             } else {
-                                LogUtil.d(TAG, "版本号不一致，询问用户是否需要更新。");
-                                mView.showUpdateTipDialog(version.getPath());
+                                update(version.getPath());
                             }
                         },
                         throwable -> {
@@ -110,8 +109,7 @@ final class SplashPresenter extends BasePresenter implements SplashContract.Pres
      *
      * @param path
      */
-    @Override
-    public void update(String path) {
+    private void update(String path) {
         Disposable disposable = mVersionTask
                 .update(path, (bytesLoaded, total, done, url) -> {
                     //下载进度

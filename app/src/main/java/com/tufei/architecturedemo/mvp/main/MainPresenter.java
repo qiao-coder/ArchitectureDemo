@@ -1,6 +1,6 @@
 package com.tufei.architecturedemo.mvp.main;
 
-import com.tufei.architecturedemo.data.LoginTask;
+import com.tufei.architecturedemo.mvp.model.LoginTask;
 import com.tufei.architecturedemo.utils.LogUtil;
 
 import javax.inject.Inject;
@@ -35,7 +35,6 @@ import javax.inject.Inject;
  * 你会发现，{@link MainActivity#mPresenter}和{@link MainFragment#mPresenter}
  * 不是同一个实例。也就是你想要在MainActivity的范围内，实现单例，办不到。
  * 但是...现在不会了...
- *
  */
 //@ActivityScoped
 final class MainPresenter implements MainContract.Presenter {

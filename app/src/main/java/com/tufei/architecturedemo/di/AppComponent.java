@@ -3,8 +3,6 @@ package com.tufei.architecturedemo.di;
 import android.app.Application;
 
 import com.tufei.architecturedemo.App;
-import com.tufei.architecturedemo.mvp.Single.SingleModule;
-import com.tufei.architecturedemo.net.HttpService;
 import com.tufei.architecturedemo.net.NetModule;
 
 import javax.inject.Singleton;
@@ -28,18 +26,14 @@ import dagger.android.support.AndroidSupportInjectionModule;
  * is the module from Dagger.Android that helps with the generation
  * and location of subcomponents.
  *
- * @author tufei
- * @date 2017/9/11
+ * Created by tufei on 2017/9/11.
  */
 @Singleton
-@Component(modules = {SingleModule.class,
-        NetModule.class,
+@Component(modules = {NetModule.class,
         ApplicationModule.class,
         ActivityBindingModule.class,
         AndroidSupportInjectionModule.class})
 public interface AppComponent extends AndroidInjector<App> {
-
-    HttpService httpService();
 
     /**
      * 必须写的模板代码。
@@ -55,7 +49,7 @@ public interface AppComponent extends AndroidInjector<App> {
     interface Builder {
 
         @BindsInstance
-        AppComponent.Builder application(Application application);
+        Builder application(Application application);
 
         AppComponent build();
     }

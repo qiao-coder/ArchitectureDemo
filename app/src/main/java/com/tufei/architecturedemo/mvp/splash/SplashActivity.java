@@ -1,14 +1,11 @@
 package com.tufei.architecturedemo.mvp.splash;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.tufei.architecturedemo.R;
 import com.tufei.architecturedemo.base.mvp.BaseActivity;
-import com.tufei.architecturedemo.mvp.Single.SingleActivity;
-import com.tufei.architecturedemo.mvp.face.FaceActivity;
 import com.tufei.architecturedemo.mvp.main.MainActivity;
 import com.tufei.architecturedemo.utils.LogUtil;
 
@@ -40,7 +37,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         LogUtil.d(TAG, "splashPresenter = " + mPresenter);
     }
 
-    @OnClick({R.id.btn_send_msg, R.id.btn_face, R.id.btn_check_update, R.id.btn_single})
+    @OnClick({R.id.btn_send_msg, R.id.btn_check_update})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_send_msg:
@@ -48,15 +45,9 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
                 intent.putExtra(MainActivity.TASK_ID, "你好！");
                 startActivity(intent);
                 break;
-            case R.id.btn_face:
-                startActivity(FaceActivity.class);
-                break;
             case R.id.btn_check_update:
                 //接口是假的。只是演示一下，使用rxjava2+retrofit2时候的示例代码。
                 //mPresenter.checkUpdate();
-                break;
-            case R.id.btn_single:
-                startActivity(SingleActivity.class);
                 break;
             default:
                 break;
@@ -71,16 +62,6 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     @Override
     public void showDownProgress(int progress) {
         //做相关操作
-    }
-
-    @Override
-    public void showUpdateTipDialog(String path) {
-        AlertDialog updateTipDialog = new AlertDialog.Builder(this).setPositiveButton("更新", (dialog, which) -> {
-            mPresenter.update(path);
-        }).setNegativeButton("取消", (dialog, which) -> {
-
-        }).show();
-        addDialog(updateTipDialog);
     }
 
     @Override
