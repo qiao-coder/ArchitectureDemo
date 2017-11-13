@@ -31,8 +31,8 @@ public class RxUtil {
      * 那么请用{@link #io_main_handleNoData()},因为RxJava不允许发送null
      *
      * 使用的时候，
-     * 如果{@link HttpResult#data}是实体类，这么写：Observable<HttpResult<Bean>>
-     * 如果{@link HttpResult#data}是数组，这么写：Observable<HttpResult<List<Bean>>>
+     * 如果{@link HttpResult#data}是一串json，这么写：Observable<HttpResult<Bean>>
+     * 如果{@link HttpResult#data}是一组json，这么写：Observable<HttpResult<List<Bean>>>
      *
      * @param <T>
      * @return
@@ -50,7 +50,7 @@ public class RxUtil {
     }
 
     /**
-     * 使用的时候，这么写：Observable<HttpResult<Object>>
+     * 使用的时候，这么写：Observable<HttpResult>
      * @return
      */
     public static ObservableTransformer<HttpResult, HttpResult> io_main_handleNoData() {
