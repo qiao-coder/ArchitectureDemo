@@ -1,12 +1,9 @@
 package com.tufei.architecturedemo.net;
 
-import com.tufei.architecturedemo.utils.RetrofitFactory;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit2.Retrofit;
 
 /**
  * @author tufei
@@ -17,7 +14,7 @@ public class NetModule {
 
     @Singleton
     @Provides
-    Retrofit provideRetrofit() {
+    HttpService provideRetrofit() {
         return RetrofitFactory.createRetrofit();
     }
 

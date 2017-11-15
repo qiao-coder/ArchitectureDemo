@@ -1,4 +1,4 @@
-package com.tufei.architecturedemo.utils;
+package com.tufei.architecturedemo.net;
 
 import com.google.gson.Gson;
 import com.tufei.architecturedemo.constants.NetConstants;
@@ -22,14 +22,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitFactory {
 
-    public static Retrofit createRetrofit(){
+    public static HttpService createRetrofit(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetConstants.BASE_URL)
                 .client(createOkHttpClient())
                 .addConverterFactory(createGsonConverterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        return retrofit;
+        retrofit.create(HttpService.class);
+        return  retrofit.create(HttpService.class);
     }
 
     private static OkHttpClient createOkHttpClient(){

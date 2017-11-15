@@ -72,7 +72,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     public <T extends IBasePresenter> void attach(T t) {
         if (!(this instanceof IBaseView)) {
             throw new RuntimeException(this.getClass().getSimpleName() +
-                    "didn't implement the interface for View that base on IBaseView!");
+                    " didn't implement the interface for View that base on IBaseView!");
         }
         //也考虑了  一个view同时绑定多个presenter的情况  (つд⊂)其实基本用不到
         if (presenterList == null) {

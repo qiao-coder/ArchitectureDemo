@@ -1,5 +1,6 @@
 package com.tufei.architecturedemo.utils;
 
+import com.tufei.architecturedemo.net.FaceHttpResult;
 import com.tufei.architecturedemo.net.HttpResult;
 
 import io.reactivex.Observable;
@@ -65,4 +66,43 @@ public class RxUtil {
                         });
     }
 
+
+    /**
+     * 1)实现了线程切换io->main
+     * 2)用于预处理百度人脸相关接口返回的json
+     * 注意：
+     * 如果对{@link FaceHttpResult#result}不关心，即使result为空也无所谓的时候，
+     * 只在乎网络请求的结果{@link FaceHttpResult#error_code}或者{@link FaceHttpResult#error_msg}，
+     * 那么请用{@link #io_main_handleFaceNoData()},因为RxJava不允许发送null
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> ObservableTransformer<FaceHttpResult<T>, T> io_main_handleFaceHttpResult() {
+        return httpResultObservable ->
+                httpResultObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+                        flatMap(httpResult->{
+                            if (httpResult.getErrorCode() != 0 || httpResult.getErrorMsg() != null) {
+                                return Observable.error(new Exception(httpResult.getErrorMsg()));
+                            } else {
+                                return Observable.just(httpResult.getResult());
+                            }
+                        });
+    }
+
+    /**
+     * 使用的时候，这么写：Observable<FaceHttpResult>
+     * @return
+     */
+    public static ObservableTransformer<FaceHttpResult, FaceHttpResult> io_main_handleFaceNoData() {
+        return httpResultObservable ->
+                httpResultObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+                        flatMap(httpResult -> {
+                            if (httpResult.getErrorCode() != 0 || httpResult.getErrorMsg() != null) {
+                                return Observable.error(new Exception(httpResult.getErrorMsg()));
+                            } else {
+                                return Observable.just(httpResult);
+                            }
+                        });
+    }
 }

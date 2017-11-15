@@ -1,6 +1,6 @@
 package com.tufei.architecturedemo.mvp.model;
 
-import com.tufei.architecturedemo.net.NetRepository;
+import com.tufei.architecturedemo.net.HttpService;
 import com.tufei.architecturedemo.utils.LogUtil;
 
 import javax.inject.Inject;
@@ -12,11 +12,11 @@ import javax.inject.Inject;
  */
 public class LoginTask {
     private static final String TAG = "LoginTask";
-    private NetRepository mNetRepository;
+    private HttpService mHttpService;
 
     @Inject
-    public LoginTask(NetRepository netRepository) {
-        mNetRepository = netRepository;
-        LogUtil.d(TAG,"netRepository = "+netRepository);
+    public LoginTask(HttpService httpService) {
+        mHttpService = httpService;
+        LogUtil.d(TAG,"mHttpService = "+httpService);
     }
 }

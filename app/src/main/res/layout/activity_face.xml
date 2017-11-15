@@ -4,29 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <Button
-        android:id="@+id/btn_face"
+        android:id="@+id/btn_save_face"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_recognize_face"
+        android:text="保存人脸"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_recognize_face"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="百度人脸识别"
-        android:textAllCaps="false"/>
-
-    <Button
-        android:id="@+id/btn_send_msg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_face"
-        android:text="传递消息给MainActivity/Fragment注入"
+        android:text="识别人脸"
         android:textAllCaps="false"/>
 
 
     <Button
-        android:id="@+id/btn_check_update"
+        android:id="@+id/btn_delete_face"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_face"
-        android:text="版本更新(暂无接口，无法使用)"
+        android:layout_below="@+id/btn_recognize_face"
+        android:text="删除人脸"
         android:textAllCaps="false"/>
 
 </RelativeLayout>

@@ -8,5 +8,5 @@ package com.tufei.architecturedemo.constants;
 public class NetConstants {
     public static final long HTTP_CONNECT_TIMEOUT = 5000;
     public static final long HTTP_READ_TIMEOUT = 5000;
-    public static final String BASE_URL = "http://www.nishabi.com";
+    public static final String BASE_URL = "https://aip.baidubce.com/rest/2.0/face/v2/";
 }

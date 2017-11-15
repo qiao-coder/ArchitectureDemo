@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.tufei.architecturedemo.R;
 import com.tufei.architecturedemo.base.mvp.BaseActivity;
+import com.tufei.architecturedemo.mvp.face.FaceActivity;
 import com.tufei.architecturedemo.mvp.main.MainActivity;
 import com.tufei.architecturedemo.utils.LogUtil;
 
@@ -37,13 +38,16 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         LogUtil.d(TAG, "splashPresenter = " + mPresenter);
     }
 
-    @OnClick({R.id.btn_send_msg, R.id.btn_check_update})
+    @OnClick({R.id.btn_send_msg, R.id.btn_face, R.id.btn_check_update})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_send_msg:
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(MainActivity.TASK_ID, "你好！");
                 startActivity(intent);
+                break;
+            case R.id.btn_face:
+                startActivity(FaceActivity.class);
                 break;
             case R.id.btn_check_update:
                 //接口是假的。只是演示一下，使用rxjava2+retrofit2时候的示例代码。

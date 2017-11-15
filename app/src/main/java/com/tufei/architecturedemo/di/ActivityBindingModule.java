@@ -1,6 +1,8 @@
 package com.tufei.architecturedemo.di;
 
 import com.tufei.architecturedemo.mvp.EmptyActivity;
+import com.tufei.architecturedemo.mvp.face.FaceActivity;
+import com.tufei.architecturedemo.mvp.face.FaceModule;
 import com.tufei.architecturedemo.mvp.main.MainActivity;
 import com.tufei.architecturedemo.mvp.main.MainModule;
 import com.tufei.architecturedemo.mvp.splash.SplashActivity;
@@ -35,6 +37,10 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = {MainModule.class})
     abstract MainActivity mainActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = {FaceModule.class})
+    abstract FaceActivity faceActivity();
 
     /**
      * 如果你的Activity不需要任何Module，即Activity简单到不需要注入任何东西的时候，也要在这里声明它

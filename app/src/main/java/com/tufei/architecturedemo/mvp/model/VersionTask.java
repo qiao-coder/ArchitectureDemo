@@ -2,7 +2,7 @@ package com.tufei.architecturedemo.mvp.model;
 
 import com.tufei.architecturedemo.mvp.model.bean.VersionBean;
 import com.tufei.architecturedemo.net.DownNetConfig;
-import com.tufei.architecturedemo.net.NetRepository;
+import com.tufei.architecturedemo.net.HttpService;
 import com.tufei.architecturedemo.net.download.OnDownListener;
 import com.tufei.architecturedemo.utils.LogUtil;
 import com.tufei.architecturedemo.utils.RxUtil;
@@ -20,22 +20,22 @@ import okhttp3.ResponseBody;
  */
 public class VersionTask {
     private static final String TAG = "VersionTask";
-    private NetRepository mNetRepository;
+    private HttpService mHttpService;
 
     @Inject
-    public VersionTask(NetRepository netRepository) {
-        LogUtil.d(TAG, "netRepository = " + netRepository);
-        mNetRepository = netRepository;
+    public VersionTask(HttpService httpService) {
+        LogUtil.d(TAG, "mHttpService = " + httpService);
+        mHttpService = httpService;
     }
 
 
     public Observable<VersionBean> getVersion() {
-        return mNetRepository.getVersion()
+        return mHttpService.getVersion()
                 .compose(RxUtil.io_main_handleHttpResult());
     }
 
     public Flowable<ResponseBody> update(String path, OnDownListener listener) {
-        NetRepository repository = DownNetConfig.initNetConfig(path, listener);
-        return repository.update(path);
+        HttpService httpService = DownNetConfig.initNetConfig(path, listener);
+        return httpService.update(path);
     }
 }
