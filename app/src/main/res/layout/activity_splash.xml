@@ -28,5 +28,12 @@
         android:layout_below="@+id/btn_face"
         android:text="版本更新(暂无接口，无法使用)"
         android:textAllCaps="false"/>
+    <Button
+        android:id="@+id/btn_single"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_check_update"
+        android:text="dagger全局单例"
+        android:textAllCaps="false"/>
 
 </RelativeLayout>

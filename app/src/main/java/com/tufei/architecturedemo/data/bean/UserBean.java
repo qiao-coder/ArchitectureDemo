@@ -1,4 +1,4 @@
-package com.tufei.architecturedemo.mvp.model.bean;
+package com.tufei.architecturedemo.data.bean;
 
 /**
  * @author tufei

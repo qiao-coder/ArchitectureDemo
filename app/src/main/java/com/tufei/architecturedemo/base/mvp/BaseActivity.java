@@ -19,7 +19,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 /**
  * BaseActivity要继承{@link DaggerAppCompatActivity},而不再是{@link AppCompatActivity}
  * 或者你点开{@link DaggerAppCompatActivity}，把他的不多的代码放到你的BaseActivity里，
- * 继续extends AppCompatActivity(傻吧你？)。
+ * 继续继承AppCompatActivity,或者是你想要继承的类。
  *
  * @author tufei
  * @date 2017/6/27

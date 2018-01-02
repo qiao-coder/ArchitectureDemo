@@ -1,6 +1,6 @@
-package com.tufei.architecturedemo.mvp.model;
+package com.tufei.architecturedemo.data;
 
-import com.tufei.architecturedemo.mvp.model.bean.VersionBean;
+import com.tufei.architecturedemo.data.bean.VersionBean;
 import com.tufei.architecturedemo.net.DownNetConfig;
 import com.tufei.architecturedemo.net.HttpService;
 import com.tufei.architecturedemo.net.download.OnDownListener;

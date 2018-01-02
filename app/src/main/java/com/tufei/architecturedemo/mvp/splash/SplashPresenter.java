@@ -4,8 +4,8 @@ package com.tufei.architecturedemo.mvp.splash;
 import android.content.Context;
 
 import com.tufei.architecturedemo.base.mvp.BasePresenter;
+import com.tufei.architecturedemo.data.VersionTask;
 import com.tufei.architecturedemo.di.ActivityScoped;
-import com.tufei.architecturedemo.mvp.model.VersionTask;
 import com.tufei.architecturedemo.net.NetModule;
 import com.tufei.architecturedemo.utils.AppUtil;
 import com.tufei.architecturedemo.utils.LogUtil;

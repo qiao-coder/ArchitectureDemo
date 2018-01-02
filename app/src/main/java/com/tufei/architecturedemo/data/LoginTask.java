@@ -1,4 +1,4 @@
-package com.tufei.architecturedemo.mvp.model;
+package com.tufei.architecturedemo.data;
 
 import com.tufei.architecturedemo.net.HttpService;
 import com.tufei.architecturedemo.utils.LogUtil;

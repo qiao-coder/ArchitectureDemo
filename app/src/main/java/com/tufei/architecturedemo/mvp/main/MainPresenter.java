@@ -1,6 +1,6 @@
 package com.tufei.architecturedemo.mvp.main;
 
-import com.tufei.architecturedemo.mvp.model.LoginTask;
+import com.tufei.architecturedemo.data.LoginTask;
 import com.tufei.architecturedemo.utils.LogUtil;
 
 import javax.inject.Inject;

@@ -1,8 +1,8 @@
 package com.tufei.architecturedemo.net;
 
-import com.tufei.architecturedemo.mvp.model.bean.AccessToken;
-import com.tufei.architecturedemo.mvp.model.bean.RecognizeResult;
-import com.tufei.architecturedemo.mvp.model.bean.VersionBean;
+import com.tufei.architecturedemo.data.bean.AccessToken;
+import com.tufei.architecturedemo.data.bean.RecognizeResult;
+import com.tufei.architecturedemo.data.bean.VersionBean;
 
 import java.util.List;
 import java.util.Map;

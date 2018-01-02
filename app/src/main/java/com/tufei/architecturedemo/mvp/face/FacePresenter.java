@@ -3,8 +3,8 @@ package com.tufei.architecturedemo.mvp.face;
 import android.content.Context;
 
 import com.tufei.architecturedemo.base.mvp.BasePresenter;
-import com.tufei.architecturedemo.mvp.model.FaceTask;
-import com.tufei.architecturedemo.mvp.model.bean.UserBean;
+import com.tufei.architecturedemo.data.FaceTask;
+import com.tufei.architecturedemo.data.bean.UserBean;
 import com.tufei.architecturedemo.utils.FileUtil;
 
 import javax.inject.Inject;

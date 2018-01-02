@@ -1,6 +1,6 @@
 package com.tufei.architecturedemo.net;
 
-import javax.inject.Singleton;
+import com.tufei.architecturedemo.di.AppComponent;
 
 import dagger.Module;
 import dagger.Provides;
@@ -12,16 +12,19 @@ import dagger.Provides;
 @Module
 public class NetModule {
 
-    @Singleton
+    /**
+     * 如果是通过@Provides提供实例，要实现单例，只需要在此标注@Singleton
+     * 当然，{@link AppComponent}里，也要标注上@Singleton
+     */
     @Provides
-    HttpService provideRetrofit() {
-        return RetrofitFactory.createRetrofit();
+    HttpService provideHttpService() {
+        return RetrofitFactory.createHttpService();
     }
 
 //    @Singleton
 //    @Provides
 //    @Nullable
-//    Retrofit provideRetrofit() {
+//    HttpService provideHttpService() {
 //        return null;
 //    }
 }

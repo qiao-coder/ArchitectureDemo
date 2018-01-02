@@ -35,12 +35,15 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
     implementation "com.google.dagger:dagger-android:$rootProject.ext.daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion"
+
     // if you use the support libraries
     annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
 
     //RxJava
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxandroidVersion"
+
     // Because RxAndroid releases are few and far between, it is recommended you also
+
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjavaVersion"
 
@@ -53,20 +56,36 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit-converters:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitVersion"
+
     //错误的导包(一个是rxjava1的，一个是以前为了解决，JakeWharton临时弄出来的版本(不过导这个应该也没问题))
+
     //implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+
     //implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
     //gson
     implementation "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+
     //okhttp(Retrofit默认引用okhttp，没必要再引用)
+
     //implementation 'com.squareup.okhttp3:okhttp:3.8.1'
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.logInterceptorVersion"
-
-
     androidTestImplementation 'junit:junit:4.12'
-
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
+
     //robolectric
-    testImplementation "org.robolectric:robolectric:3.5.1"
+    testImplementation 'org.robolectric:robolectric:3.5.1'
     testImplementation 'org.robolectric:shadows-multidex:3.5.1'
+
+    //mockito
+    testCompile 'org.mockito:mockito-core:2.8.47'
+
+    //powermock
+    testCompile 'org.powermock:powermock-core:1.7.1'
+    testCompile 'org.powermock:powermock-module-junit4:1.7.1'
+    testCompile 'org.powermock:powermock-api-mockito2:1.7.1'
+
+    //同时使用robolectric和powermock需要这些依赖
+    testCompile 'org.powermock:powermock-classloading-xstream:1.7.1'
+    testCompile 'org.powermock:powermock-module-junit4-rule:1.7.1'
 }

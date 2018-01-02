@@ -1,10 +1,10 @@
-package com.tufei.architecturedemo.mvp.model;
+package com.tufei.architecturedemo.data;
 
 import com.google.gson.Gson;
 import com.tufei.architecturedemo.constants.FaceConstants;
-import com.tufei.architecturedemo.mvp.model.bean.AccessToken;
-import com.tufei.architecturedemo.mvp.model.bean.RecognizeResult;
-import com.tufei.architecturedemo.mvp.model.bean.UserBean;
+import com.tufei.architecturedemo.data.bean.AccessToken;
+import com.tufei.architecturedemo.data.bean.RecognizeResult;
+import com.tufei.architecturedemo.data.bean.UserBean;
 import com.tufei.architecturedemo.net.FaceHttpResult;
 import com.tufei.architecturedemo.net.HttpService;
 import com.tufei.architecturedemo.utils.Base64Util;

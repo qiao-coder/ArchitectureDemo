@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitFactory {
 
-    public static HttpService createRetrofit(){
+    public static HttpService createHttpService(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetConstants.BASE_URL)
                 .client(createOkHttpClient())

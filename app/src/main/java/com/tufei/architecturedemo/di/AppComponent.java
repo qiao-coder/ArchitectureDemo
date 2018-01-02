@@ -3,6 +3,7 @@ package com.tufei.architecturedemo.di;
 import android.app.Application;
 
 import com.tufei.architecturedemo.App;
+import com.tufei.architecturedemo.mvp.Single.SingleModule;
 import com.tufei.architecturedemo.net.HttpService;
 import com.tufei.architecturedemo.net.NetModule;
 
@@ -31,7 +32,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
  * @date 2017/9/11
  */
 @Singleton
-@Component(modules = {NetModule.class,
+@Component(modules = {SingleModule.class,
+        NetModule.class,
         ApplicationModule.class,
         ActivityBindingModule.class,
         AndroidSupportInjectionModule.class})

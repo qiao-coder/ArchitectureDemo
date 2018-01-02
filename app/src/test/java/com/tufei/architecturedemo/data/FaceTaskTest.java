@@ -1,6 +1,6 @@
-package com.tufei.architecturedemo.mvp.model;
+package com.tufei.architecturedemo.data;
 
-import com.tufei.architecturedemo.mvp.model.bean.UserBean;
+import com.tufei.architecturedemo.data.bean.UserBean;
 import com.tufei.architecturedemo.utils.BaseTest;
 
 import org.junit.After;
@@ -28,20 +28,19 @@ public class FaceTaskTest extends BaseTest {
     @Before
     public void setup() {
         mFaceTask = new FaceTask(mHttpService);
-        mFaceTask.getAccessToken().test().onComplete();
+        mFaceTask.getAccessToken().test();
     }
 
     @After
     public void cleanup() {
-        mFaceTask.deleteFace(ID).test().onComplete();
+        mFaceTask.deleteFace(ID).test();
     }
 
     @Test
     public void testGetAccessToken() throws Exception {
         mFaceTask.getAccessToken()
                 .test()
-                .assertNoErrors()
-                .onComplete();
+                .assertNoErrors();
     }
 
     @Test
@@ -50,8 +49,7 @@ public class FaceTaskTest extends BaseTest {
         UserBean userBean = new UserBean(ID, NAME, EVALUATION);
         mFaceTask.saveFace(bytes, userBean)
                 .test()
-                .assertNoErrors()
-                .onComplete();
+                .assertNoErrors();
     }
 
     @Test
@@ -61,15 +59,13 @@ public class FaceTaskTest extends BaseTest {
         UserBean userBean = new UserBean(ID, NAME, EVALUATION);
         mFaceTask.saveFace(bytes, userBean)
                 .test()
-                .assertNoErrors()
-                .onComplete();
+                .assertNoErrors();
         //人脸注册完毕后，生效时间一般为5s以内，之后便可以进行识别或认证操作。
         Thread.sleep(2000);
 
         mFaceTask.recognizeFace(bytes)
                 .test()
-                .assertNoErrors()
-                .onComplete();
+                .assertNoErrors();
     }
     @Test
     public void testRecognizeFace_noFace() throws Exception {
@@ -78,16 +74,14 @@ public class FaceTaskTest extends BaseTest {
         UserBean userBean = new UserBean(ID, NAME, EVALUATION);
         mFaceTask.saveFace(bytes, userBean)
                 .test()
-                .assertNoErrors()
-                .onComplete();
+                .assertNoErrors();
 
         Thread.sleep(2000);
 
         byte[] realBytes = fileToBytes(NO_FACE_FILE_NAME);
         mFaceTask.recognizeFace(realBytes)
                 .test()
-                .assertError(Exception.class)
-                .onComplete();
+                .assertError(Exception.class);
     }
     @Test
     public void testRecognizeFace_noMatchFace() throws Exception {
@@ -96,24 +90,21 @@ public class FaceTaskTest extends BaseTest {
         UserBean userBean = new UserBean(ID, NAME, EVALUATION);
         mFaceTask.saveFace(bytes, userBean)
                 .test()
-                .assertNoErrors()
-                .onComplete();
+                .assertNoErrors();
 
         Thread.sleep(2000);
 
         byte[] realBytes = fileToBytes(NO_MATCH_FACE_FILE_NAME);
         mFaceTask.recognizeFace(realBytes)
                 .test()
-                .assertError(Exception.class)
-                .onComplete();
+                .assertError(Exception.class);
     }
 
     @Test
     public void testDeleteFace() throws Exception {
         mFaceTask.deleteFace(ID)
                 .test()
-                .assertNoErrors()
-                .onComplete();
+                .assertNoErrors();
     }
 
     private byte[] fileToBytes(String fileName) throws IOException{

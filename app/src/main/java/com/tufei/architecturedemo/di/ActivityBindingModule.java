@@ -1,6 +1,7 @@
 package com.tufei.architecturedemo.di;
 
 import com.tufei.architecturedemo.mvp.EmptyActivity;
+import com.tufei.architecturedemo.mvp.Single.SingleActivity;
 import com.tufei.architecturedemo.mvp.face.FaceActivity;
 import com.tufei.architecturedemo.mvp.face.FaceModule;
 import com.tufei.architecturedemo.mvp.main.MainActivity;
@@ -41,6 +42,10 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = {FaceModule.class})
     abstract FaceActivity faceActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector()
+    abstract SingleActivity singleActivity();
 
     /**
      * 如果你的Activity不需要任何Module，即Activity简单到不需要注入任何东西的时候，也要在这里声明它

@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".mvp.face.FaceActivity">
         </activity>
+        <activity android:name=".mvp.Single.SingleActivity">
+        </activity>
     </application>
 
 </manifest>
