@@ -15,9 +15,13 @@ public interface SplashContract {
         void showMainActivity();
 
         void showDownProgress(int progress);
+
+        void showUpdateTipDialog(String path);
     }
 
     interface Presenter extends IBasePresenter<View> {
         void checkUpdate();
+
+        void update(String path);
     }
 }

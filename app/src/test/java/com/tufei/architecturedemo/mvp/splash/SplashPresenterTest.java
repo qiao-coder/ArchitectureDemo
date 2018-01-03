@@ -33,9 +33,10 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "javax.net.ssl.*", "javax.xml.*", "org.xml.*", "org.w3c.*"})
+//必须写如下代码 让PowerMock 忽略Robolectric的所有注入 如果还要使用https 必须加上"javax.net.ssl.*"，忽略ssl 不然可以省略
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "javax.net.ssl.*"})
 @PrepareForTest(AppUtil.class)
-public class SplashPresenterTest{
+public class SplashPresenterTest {
 
     @Mock
     SplashActivity splashActivity;
@@ -47,7 +48,7 @@ public class SplashPresenterTest{
     public PowerMockRule rule = new PowerMockRule();
 
     @Before
-    public void setup() throws Exception{
+    public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
         PowerMockito.mockStatic(AppUtil.class);
         //Robolectric日志输出(能输出代码块里面的log)
@@ -68,6 +69,7 @@ public class SplashPresenterTest{
         mSplashPresenter.checkUpdate();
         verify(splashActivity).showMainActivity();
     }
+
     @Test
     public void checkUpdate_update() throws Exception {
         VersionBean versionBean = new VersionBean();
@@ -75,9 +77,8 @@ public class SplashPresenterTest{
         versionBean.setPath("www.baidu.com");
         when(versionTask.getVersion()).thenReturn(Observable.just(versionBean));
         when(AppUtil.getVersion(any())).thenReturn("1.0");
-//        when(versionTask.update(any(),any())).thenAnswer(any());
         mSplashPresenter.checkUpdate();
-        verify(versionTask).update(any(),any());
+        verify(splashActivity).showUpdateTipDialog(versionBean.getPath());
     }
 
 }
