@@ -1,24 +1,15 @@
 # Robolectric集成及各种bug解决方案
 
 ## 1.关于Robolectric
-（参考博客：https://juejin.im/entry/5908244144d9040069381087）  
-Robolectric通过实现一套JVM能运行的Android代码，然后在unit test运行的时候去截取android相关的  
-代码调用，然后转到自己实现的代码去执行这个调用的过程。举个例子说明一下，比如Android里面有个类  
-叫Button，Robolectric则实现了一个叫ShadowButton类。  这个类基本上实现了Button的所有公共接口。  
-假设你在unit test里面写到
+（ 参考博客：https://juejin.im/entry/5908244144d9040069381087 ）  
+Robolectric通过实现一套JVM能运行的Android代码，然后在unit test运行的时候去截取android相关的代码调用，然后转到自己实现的代码去执行这个调用的过程。举个例子说明一下，比如Android里面有个类叫Button，Robolectric则实现了一个叫ShadowButton类。  这个类基本上实现了Button的所有公共接口。假设你在unit test里面写到
 ```
 String text = button.getText().toString();
 ```
-在这个unit test运行时，Robolectric会自动判断你调用了Android相关的代码button.getText()，在底层  
-截取这个调用过程，转到ShadowButton的getText方法来执行。而ShadowButton是真正实现了getText这个  
-方法的，所以这个过程便可以正常执行。
+在这个unit test运行时，Robolectric会自动判断你调用了Android相关的代码button.getText()，在底层截取这个调用过程，转到ShadowButton的getText方法来执行。而ShadowButton是真正实现了getText这个方法的，所以这个过程便可以正常执行。
 
-除了实现Android里面的类的现有接口，Robolectric还做了另外一件事情，极大地方便了unit testing的  
-工作。那就是他们给每个Shadow类额外增加了很多接口，方便我们读取对应Android类的一些状态。比如  
-ImageView有一个方法叫setImageResource(resourceId)，然而并没有一个对应的getter方法叫  
-getImageResourceId()，这样你是没有办法测试这个ImageView是不是显示了你想要的image。而在  
-Robolectric实现的ShadowImageView里面，则提供了getImageResourceId()这个接口，你可以用来测试它  
-是否正确的显示了你想要的image。
+除了实现Android里面的类的现有接口，Robolectric还做了另外一件事情，极大地方便了unit testing的工作。那就是他们给每个Shadow类额外增加了很多接口，方便我们读取对应Android类的一些状态。比如ImageView有一个方法叫setImageResource(resourceId)，然而并没有一个对应的getter方法叫getImageResourceId()，这样你是没有办法测试这个ImageView是不是显示了你想要的image。而在  
+Robolectric实现的ShadowImageView里面，则提供了getImageResourceId()这个接口，你可以用来测试它是否正确的显示了你想要的image。
 
 ## 2.配置
 1）app的build.gradle的android节点下，添加（不用也行？我公司项目好像就没有用到）
