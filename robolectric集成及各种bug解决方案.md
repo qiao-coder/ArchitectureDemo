@@ -1,6 +1,6 @@
-#Robolectric
+# Robolectric集成及各种bug解决方案
 
-##1.关于Robolectric
+## 1.关于Robolectric
 （https://juejin.im/entry/5908244144d9040069381087）
 Robolectric通过实现一套JVM能运行的Android代码，然后在unit test运行的时候去截取android相关的  
 代码调用，然后转到自己实现的代码去执行这个调用的过程。举个例子说明一下，比如Android里面有个类  
@@ -20,7 +20,7 @@ getImageResourceId()，这样你是没有办法测试这个ImageView是不是显
 Robolectric实现的ShadowImageView里面，则提供了getImageResourceId()这个接口，你可以用来测试它  
 是否正确的显示了你想要的image。
 
-##2.配置
+## 2.配置
 1）app的build.gradle的android节点下，添加（不用也行？我公司项目好像就没有用到）
 ```
 testOptions {
@@ -53,10 +53,10 @@ java.io.FileNotFoundException: build\intermediates\bundles\debug\AndroidManifest
 No such manifest file: build/intermediates/bundles/debug/AndroidManifest.xml
 ```
 解决的方式就是将Working directory的值设置为$MODULE_DIR$。
-![Step1](https://github.com/TuFeiBaBa/ArchitectureDemo/tree/master/images/Image1.png)
-![Step2](https://github.com/TuFeiBaBa/ArchitectureDemo/tree/master/images/Image2.png)
+![Step1](images/Image1.png)
+![Step2](images/Image2.png)
 
-##3.Downloading: org/robolectric/android-all/7.1.0_r7-robolectric-0/android-all-7.1.0_r7-robolectric-0.jar from repository sonatype at https://oss.sonatype.org/content/groups/public/
+## 3.Downloading: org/robolectric/android-all/7.1.0_r7-robolectric-0/android-all-7.1.0_r7-robolectric-0.jar from repository sonatype at https://oss.sonatype.org/content/groups/public/
 直接去网站下载：https://oss.sonatype.org/content/groups/public/  拼接上  org/robolectric/  
 android-all/7.1.0_r7-robolectric-0/android-all-7.1.0_r7-robolectric-0.jar
 
@@ -70,13 +70,13 @@ http://repo1.maven.org/maven2/  拼接上 org/robolectric/android-all/7.1.0_r7-r
 
 （不过不一定  好像有碰到下载很快的时候  下载慢的时候  可以考虑这样做）
 
-##4.java.lang.UnsupportedOperationException: Robolectric does not support API level 26.
+## 4.java.lang.UnsupportedOperationException: Robolectric does not support API level 26.
 
 使用的Robolectric3.4版本，不支持API level 26，不支持API level15及以下的sdk版本
 
-##5.要测试v4包，需要org.robolectric:shadows-support-v4包
+## 5.要测试v4包，需要org.robolectric:shadows-support-v4包
 
-##6.日志输出
+## 6.日志输出
 只需要在每个TestCase的setUp()里执行ShadowLog.stream = System.out即可，这样，我们代码里的  
 log，单元测试里的log都会输出到控制台，方便我们调试。如：
 ```
@@ -86,10 +86,10 @@ public void setUp() throws URISyntaxException {
   ShadowLog.stream = System.out;
 }
 ```
-##7.网络请求
+## 7.网络请求
 Robolectic支持发送真实的网络请求，通过对响应结果进行测试，可大大的提升我们与服务端的联调效率。
 
-##8.测试网络时，遇到：
+## 8.测试网络时，遇到：
 ```
 javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX   
 path validation failed: java.security.cert.CertPathValidatorException: Algorithm   
@@ -110,7 +110,7 @@ testImplementation 'org.robolectric:robolectric:3.4'
 ```
 2）https://github.com/robolectric/robolectric/issues/3288
 
-##9.java.lang.VerifyError: Expecting a stackmap frame at branch target 384
+## 9.java.lang.VerifyError: Expecting a stackmap frame at branch target 384
 ```
 Exception Details:
   Location:
@@ -122,18 +122,18 @@ Exception Details:
     0x0000010: 0412 0b03 a701 6c53 5905 1216 04a7 0163
 ```
 解决办法：
- ![image](https://github.com/TuFeiBaBa/ArchitectureDemo/tree/master/images/Image3.png)
+ ![image](images/Image3.png)
 
-##10.Shadow Classes
+## 10.Shadow Classes
 Shadow classes always need a public no-arg constructor so that the Robolectric framework can instantiate them.
 
-##11.Robolectric的application，会走真实逻辑。如果你的application里做了几个别的第三方jar包，如讯飞语音的初始化，测试时，可能报类似的错
+## 11.Robolectric的application，会走真实逻辑。如果你的application里做了几个别的第三方jar包，如讯飞语音的初始化，测试时，可能报类似的错
 有什么办法替换真实的application，绕过去这一段初始化第三方jar包的代码吗？
-![image](https://github.com/TuFeiBaBa/ArchitectureDemo/tree/master/images/Image4.png)
+![image](images/Image4.png)
 解决办法：
 1）在test包下，新建一个AndroidManifest.xml,在该Manifest里，指定你新建的专门用于测试用的  
 TestApplication。如：
- ![image](https://github.com/TuFeiBaBa/ArchitectureDemo/tree/master/images/Image5.png)
+ ![image](images/Image5.png)
 2）使用@config指定你的Manifest，路径为“src/test/AndroidManifest.xml”（你原来的Manifest路径为  
 “src/main/AndroidManifest.xml”）如：
 ```
@@ -144,7 +144,7 @@ TestApplication。如：
 会出现onCreate不走的情况），就换发现，app原来的Application，已经被替换成了TestApplication。
 
 注意：指定Manifest时，@Config不要再加上constants = BuildConfig.class
-![image](https://github.com/TuFeiBaBa/ArchitectureDemo/tree/master/images/Image6.png)
+![image](images/Image6.png)
 不然会报警告：
 ```
 No such manifest file: build\intermediates\manifests\full\debug\src\test\AndroidManifest.xml
@@ -153,7 +153,7 @@ No such manifest file: build\intermediates\manifests\full\debug\src\test\Android
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 
-##12.使用roboletric以上时，需要启用Java 8 语言功能和 Jack（已知问题：Instant Run 目前不能用于 Jack，  
+## 12.使用roboletric以上时，需要启用Java 8 语言功能和 Jack（已知问题：Instant Run 目前不能用于 Jack，  
 在使用新的工具链时将被禁用。）
 ```
 android {
@@ -210,7 +210,7 @@ dependencies {
 apply plugin: 'me.tatarka.retrolambda'
 ```
 
-##13.测试rxjava2和retrofit2的网络请求框架时，（我测试一个获取H5的网页时，碰到过）断言testObserver.assertComplete()有时会报下面错误：
+## 13.测试rxjava2和retrofit2的网络请求框架时，（我测试一个获取H5的网页时，碰到过）断言testObserver.assertComplete()有时会报下面错误：
 ```
 Caused by: java.lang.AssertionError
     at okhttp3.internal.platform.AndroidPlatform.isCleartextTrafficPermitted(AndroidPlatform.java:160)
@@ -238,12 +238,12 @@ public void getUploadAddress() throws Exception {
     Log.d(TAG, "getUploadAddress: json:"+string);
 }
 ```
-##14.Robolectric unit tests fail after Multidex
+## 14.Robolectric unit tests fail after Multidex
 ```
 testCompile "org.robolectric:shadows-multidex:3.4-rc2"
 ```
 
-##15.使用robolectric+powermock+dagger2时，
+## 15.使用robolectric+powermock+dagger2时，
 ```
 java.lang.NullPointerException: appComponent
     at com.mawaig.taxrobot.injector.component.DaggerSplashComponent$Builder.appComponent(DaggerSplashComponent.java:121)
@@ -259,7 +259,7 @@ java.lang.NullPointerException: appComponent
 
 
 
-##16. java.lang.annotation.AnnotationFormatError: Invalid default: public abstract java.lang.Class org.robolectric.annotation.Config.application()
+## 16. java.lang.annotation.AnnotationFormatError: Invalid default: public abstract java.lang.Class org.robolectric.annotation.Config.application()
 https://github.com/robolectric/robolectric/issues/1620  
 我似乎是通过删除  .gradle 然后重新编译就成功修复了。
 
