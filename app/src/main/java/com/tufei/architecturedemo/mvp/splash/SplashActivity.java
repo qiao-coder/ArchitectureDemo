@@ -1,5 +1,6 @@
 package com.tufei.architecturedemo.mvp.splash;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
@@ -70,6 +71,16 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     @Override
     public void showDownProgress(int progress) {
         //做相关操作
+    }
+
+    @Override
+    public void showUpdateTipDialog(String path) {
+        AlertDialog updateTipDialog = new AlertDialog.Builder(this).setPositiveButton("更新", (dialog, which) -> {
+            mPresenter.update(path);
+        }).setNegativeButton("取消", (dialog, which) -> {
+
+        }).show();
+        addDialog(updateTipDialog);
     }
 
     @Override

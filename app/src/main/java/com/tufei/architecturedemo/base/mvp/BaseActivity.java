@@ -1,5 +1,6 @@
 package com.tufei.architecturedemo.base.mvp;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -31,6 +32,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
      */
     protected String TAG = getClass().getSimpleName();
     private List<IBasePresenter> presenterList;
+    private List<Dialog> mDialogList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,6 +96,32 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     }
 
     /**
+     * 存储dialog
+     *
+     * @param dialog
+     */
+    public void addDialog(Dialog dialog) {
+        if (mDialogList == null) {
+            mDialogList = new ArrayList<>();
+        }
+        mDialogList.add(dialog);
+    }
+
+    /**
+     * 关掉所有dialog
+     */
+    public void dismissAllDialog() {
+        if (mDialogList != null && mDialogList.size() > 0) {
+            for (Dialog dialog : mDialogList) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+            mDialogList.clear();
+        }
+    }
+
+    /**
      * 界面跳转，不需要添加额外信息的时候(一切为了偷懒)
      *
      * @param clazz 要跳转的界面
@@ -107,6 +135,8 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     @Override
     protected void onDestroy() {
         ActivityCollector.removeActivity(this);
+        //关闭所有没有及时关闭的dialog
+        dismissAllDialog();
         //执行presenter里的onDetachView方法
         if (presenterList != null && presenterList.size() > 0) {
             Iterator<IBasePresenter> iterator = presenterList.iterator();

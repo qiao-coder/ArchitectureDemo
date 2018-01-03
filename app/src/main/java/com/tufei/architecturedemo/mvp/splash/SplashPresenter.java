@@ -76,11 +76,12 @@ final class SplashPresenter extends BasePresenter implements SplashContract.Pres
                 .getVersion()
                 .subscribe(
                         version -> {
-                            LogUtil.d(TAG, "查询版本信息成功。");
                             if (version.getVersion().equals(AppUtil.getVersion(mContext))) {
+                                LogUtil.d(TAG, "版本号一致，不需要更新。");
                                 mView.showMainActivity();
                             } else {
-                                update(version.getPath());
+                                LogUtil.d(TAG, "版本号不一致，询问用户是否需要更新。");
+                                mView.showUpdateTipDialog(version.getPath());
                             }
                         },
                         throwable -> {
@@ -109,7 +110,8 @@ final class SplashPresenter extends BasePresenter implements SplashContract.Pres
      *
      * @param path
      */
-    private void update(String path) {
+    @Override
+    public void update(String path) {
         Disposable disposable = mVersionTask
                 .update(path, (bytesLoaded, total, done, url) -> {
                     //下载进度
