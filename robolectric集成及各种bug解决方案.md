@@ -1,6 +1,6 @@
 # Robolectric集成及各种bug解决方案
 
-## 1.关于Robolectric
+## 1.Robolectric
 （ 参考博客：https://juejin.im/entry/5908244144d9040069381087 ）  
 Robolectric通过实现一套JVM能运行的Android代码，然后在unit test运行的时候去截取android相关的代码调用，然后转到自己实现的代码去执行这个调用的过程。举个例子说明一下，比如Android里面有个类叫Button，Robolectric则实现了一个叫ShadowButton类。  这个类基本上实现了Button的所有公共接口。假设你在unit test里面写到
 ```
@@ -49,7 +49,24 @@ No such manifest file: build/intermediates/bundles/debug/AndroidManifest.xml
 
 ![Step2](images/Image2.png)
 
-## 3.Downloading: org/robolectric/android-all/7.1.0_r7-robolectric-0/android-all-7.1.0_r7-robolectric-0.jar from repository sonatype at https://oss.sonatype.org/content/groups/public/
+## 3.网络请求
+Robolectric支持发送真实的网络请求，通过对响应结果进行测试，可大大的提升我们与服务端的联调效率。
+
+--------------------------------------使用时可能遇到的各种bug-------------------------------------
+
+## 4.要测试v4包，需要org.robolectric:shadows-support-v4包
+
+## 5.日志输出
+使用Robolectric时，可以查看相关日志输出。只需要在每个TestCase里预先执行ShadowLog.stream = System.out即可，这样，我们代码里的log，单元测试里的log都会输出到控制台，方便我们调试。如：
+```
+@Before
+public void setUp() throws URISyntaxException {
+  //输出日志
+  ShadowLog.stream = System.out;
+}
+```
+
+## 6.Robolectric在第一次运行时，会下载一些sdk依赖包。但通常会一直卡在：Downloading: org/robolectric/android-all/7.1.0_r7-robolectric-0/android-all-7.1.0_r7-robolectric-0.jar from repository sonatype at https://oss.sonatype.org/content/groups/public/
 解决办法：  
 直接去网站下载：https://oss.sonatype.org/content/groups/public/  拼接上  org/robolectric/  
 android-all/7.1.0_r7-robolectric-0/android-all-7.1.0_r7-robolectric-0.jar
@@ -62,24 +79,9 @@ http://repo1.maven.org/maven2/  拼接上 org/robolectric/android-all/7.1.0_r7-r
 
 扔到 C:\Users\lenovo\.m2\repository\org\robolectric\android-all\7.1.0_r7-robolectric-0
 
-## 4.java.lang.UnsupportedOperationException: Robolectric does not support API level 26.
+## 7.java.lang.UnsupportedOperationException: Robolectric does not support API level 26.
 
 使用的Robolectric3.4版本，不支持API level 26，不支持API level15及以下的sdk版本
-
-## 5.要测试v4包，需要org.robolectric:shadows-support-v4包
-
-## 6.日志输出
-只需要在每个TestCase的setUp()里执行ShadowLog.stream = System.out即可，这样，我们代码里的log，单元测试里的log都会输出到控制台，方便我们调试。如：
-```
-@Before
-public void setUp() throws URISyntaxException {
-  //输出日志
-  ShadowLog.stream = System.out;
-}
-```
-
-## 7.网络请求
-Robolectic支持发送真实的网络请求，通过对响应结果进行测试，可大大的提升我们与服务端的联调效率。
 
 ## 8.测试网络时，遇到：
 ```
@@ -87,7 +89,6 @@ javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: 
 path validation failed: java.security.cert.CertPathValidatorException: Algorithm   
 constraints check failed on signature algorithm: SHA256WithRSAEncryption
 ```
-https://github.com/robolectric/robolectric/issues/3288
 解决办法：  
 
 1）
@@ -101,7 +102,7 @@ testImplementation 'org.robolectric:robolectric:3.4'
 //    }
     testImplementation 'org.bouncycastle:bcprov-jdk15on:1.57'  
 ```
-2）https://github.com/robolectric/robolectric/issues/3288
+2）另一解决方案（里面两种方案都有说到）：https://github.com/robolectric/robolectric/issues/3288
 
 ## 9.java.lang.VerifyError: Expecting a stackmap frame at branch target 384
 ```
@@ -121,10 +122,15 @@ Exception Details:
 Shadow classes always need a public no-arg constructor so that the Robolectric framework can instantiate them.
 
 ## 11.Robolectric的application，会走真实逻辑。如果你的application里做了几个别的第三方jar包，如讯飞语音的初始化，测试时，可能报类似的错。有什么办法替换真实的application，绕过去这一段初始化第三方jar包的代码吗？  
+
 ![image](images/Image4.png)
+
 解决办法：
+
 1）在test包下，新建一个AndroidManifest.xml,在该Manifest里，指定你新建的专门用于测试用的TestApplication。如：  
+
 ![image](images/Image5.png)
+
 2）使用@config指定你的Manifest，路径为“src/test/AndroidManifest.xml”（你原来的Manifest路径为“src/main/AndroidManifest.xml”）如：
 ```
 @RunWith(RobolectricTestRunner.class)
@@ -133,7 +139,9 @@ Shadow classes always need a public no-arg constructor so that the Robolectric f
 这样，如果你在TestApplication的onCreate打印日志时，测试时，如果有用到Application的实例（没有用到，会出现onCreate不走的情况），就换发现，app原来的Application，已经被替换成了TestApplication。
 
 注意：指定Manifest时，@Config不要再加上constants = BuildConfig.class  
+
 ![image](images/Image6.png)
+
 不然会报警告：
 ```
 No such manifest file: build\intermediates\manifests\full\debug\src\test\AndroidManifest.xml
