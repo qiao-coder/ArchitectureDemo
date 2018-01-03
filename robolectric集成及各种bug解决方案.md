@@ -1,7 +1,7 @@
 # Robolectric集成及各种bug解决方案
 
 ## 1.关于Robolectric
-（https://juejin.im/entry/5908244144d9040069381087）
+（参考博客：https://juejin.im/entry/5908244144d9040069381087）  
 Robolectric通过实现一套JVM能运行的Android代码，然后在unit test运行的时候去截取android相关的  
 代码调用，然后转到自己实现的代码去执行这个调用的过程。举个例子说明一下，比如Android里面有个类  
 叫Button，Robolectric则实现了一个叫ShadowButton类。  这个类基本上实现了Button的所有公共接口。  
