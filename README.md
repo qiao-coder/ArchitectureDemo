@@ -3,7 +3,7 @@ mvp+dagger2（dagger.android）+rxjava2+retrofit2的架构demo，
 基于谷歌的架构demo（ https://github.com/googlesamples/android-architecture ） 封装的。
 
 ### dagger.android
-dagger相关的注释，摘录自谷歌demo。</br>dagger全局单例的例子，在我优化代码时，被我干掉了。迟点再放上来。
+dagger相关的注释，摘录自谷歌demo。
 
 ### RxJava2+Retrofit2
 1.有请求百度人脸识别的接口示例代码。注：人脸保存完毕后，生效时间一般为5s以内(通常一两秒)，之后便可以进行识别等操作。  
