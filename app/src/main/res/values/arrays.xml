@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="pick_image_options">
+        <item>@string/pick_image_from_photo</item>
+        <item>@string/pick_image_from_gallery</item>
+    </array>
+    <array name="week">
+        <item>@string/Sunday</item>
+        <item>@string/Monday</item>
+        <item>@string/Tuesday</item>
+        <item>@string/Wednesday</item>
+        <item>@string/Thursday</item>
+        <item>@string/Friday</item>
+        <item>@string/Saturday</item>
+    </array>
+</resources>

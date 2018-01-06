@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">ArchitectureDemo</string>
+
+    <string name="title_pick_image">选择图片</string>
+    <string name="pick_image_from_photo">拍照</string>
+    <string name="pick_image_from_gallery">相册</string>
+
+    <string name="Monday">星期一</string>
+    <string name="Tuesday">星期二</string>
+    <string name="Wednesday">星期三</string>
+    <string name="Thursday">星期四</string>
+    <string name="Friday">星期五</string>
+    <string name="Saturday">星期六</string>
+    <string name="Sunday">星期日</string>
 </resources>

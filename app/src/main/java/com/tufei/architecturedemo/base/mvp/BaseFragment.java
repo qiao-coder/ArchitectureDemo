@@ -20,7 +20,7 @@ import dagger.android.support.DaggerFragment;
 /**
  * BaseFragment要继承{@link DaggerFragment},而不再是{@link android.support.v4.app.Fragment}
  * <p>
- * 1)如果你要使用的是{@link android.support.v4.app.Fragment}，那就继承{@link dagger.android.support.DaggerFragment}
+ * 1)如果你要使用的是{@link android.support.v4.app.Fragment}，那就继承{@link DaggerFragment}
  * 2)如果你要使用的是{@link android.app.Fragment}，那就继承{@link dagger.android.DaggerFragment}
  * 3)或者你两者都要用..那就点开上述两个类，把它们的代码都拷贝过来放在你的BaseFragment就是了..
  *

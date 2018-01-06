@@ -23,20 +23,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DownNetConfig {
     /**
-     * 要监听下载进度时，无法使用全局的HttpService
+     * 要监听下载进度时，无法使用全局的Repository
      *
      * @param url
      * @param listener
      * @return
      */
-    public static HttpService initNetConfig(String url, OnDownListener listener) {
+    public static NetRepository initNetConfig(String url, OnDownListener listener) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetConstants.BASE_URL)
                 .client(createOkHttpClient(url, listener))
                 .addConverterFactory(createGsonConverterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        return retrofit.create(HttpService.class);
+        NetRepository repository = new NetRepository(retrofit);
+        return repository;
     }
 
     /**
@@ -45,14 +46,15 @@ public class DownNetConfig {
      * @param url
      * @return
      */
-    public static HttpService initNetConfigForRxbus(final String url) {
+    public static NetRepository initNetConfigForRxbus(final String url) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetConstants.BASE_URL)
                 .client(createOkHttpClient(url, null))
                 .addConverterFactory(createGsonConverterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        return retrofit.create(HttpService.class);
+        NetRepository repository = new NetRepository(retrofit);
+        return repository;
     }
 
     private static OkHttpClient createOkHttpClient(String url, OnDownListener listener) {

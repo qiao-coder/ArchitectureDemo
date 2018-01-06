@@ -1,14 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+
     repositories {
         google()
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
-        
+
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -30,12 +30,12 @@ task clean(type: Delete) {
 ext{
     //sdk and tools
     minSdkVersion = 14
-    targetSdkVersion = 26
-    compileSdkVersion = 26
+    targetSdkVersion = 25
+    compileSdkVersion = 25
     buildToolsVersion = '26.0.2'
 
     //app dependencies
-    supportLibraryVersion = '26.0.0'
+    supportLibraryVersion = '25.3.1'
     constraintLayoutVersion = '1.0.2'
     junitVersion = '4.12'
     runnerVersion = '1.0.1'
@@ -48,4 +48,8 @@ ext{
     retrofitVersion = "2.3.0"
     gsonVersion = "2.8.1"
     logInterceptorVersion = "3.8.1"
+
+    //other dependencies
+    glideVersion = "3.7.0"
+    rxlifecycleVersion = "2.0.1"
 }

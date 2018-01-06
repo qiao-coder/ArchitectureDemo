@@ -1,6 +1,5 @@
 package com.tufei.architecturedemo.base.mvp;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -20,7 +19,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 /**
  * BaseActivity要继承{@link DaggerAppCompatActivity},而不再是{@link AppCompatActivity}
  * 或者你点开{@link DaggerAppCompatActivity}，把他的不多的代码放到你的BaseActivity里，
- * 继续继承AppCompatActivity,或者是你想要继承的类。
+ * 继续extends AppCompatActivity(傻吧你？)。
  *
  * @author tufei
  * @date 2017/6/27
@@ -32,7 +31,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
      */
     protected String TAG = getClass().getSimpleName();
     private List<IBasePresenter> presenterList;
-    private List<Dialog> mDialogList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +72,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     public <T extends IBasePresenter> void attach(T t) {
         if (!(this instanceof IBaseView)) {
             throw new RuntimeException(this.getClass().getSimpleName() +
-                    " didn't implement the interface for View that base on IBaseView!");
+                    "didn't implement the interface for View that base on IBaseView!");
         }
         //也考虑了  一个view同时绑定多个presenter的情况  (つд⊂)其实基本用不到
         if (presenterList == null) {
@@ -96,32 +94,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     }
 
     /**
-     * 存储dialog
-     *
-     * @param dialog
-     */
-    public void addDialog(Dialog dialog) {
-        if (mDialogList == null) {
-            mDialogList = new ArrayList<>();
-        }
-        mDialogList.add(dialog);
-    }
-
-    /**
-     * 关掉所有dialog
-     */
-    public void dismissAllDialog() {
-        if (mDialogList != null && mDialogList.size() > 0) {
-            for (Dialog dialog : mDialogList) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-            }
-            mDialogList.clear();
-        }
-    }
-
-    /**
      * 界面跳转，不需要添加额外信息的时候(一切为了偷懒)
      *
      * @param clazz 要跳转的界面
@@ -135,8 +107,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     @Override
     protected void onDestroy() {
         ActivityCollector.removeActivity(this);
-        //关闭所有没有及时关闭的dialog
-        dismissAllDialog();
         //执行presenter里的onDetachView方法
         if (presenterList != null && presenterList.size() > 0) {
             Iterator<IBasePresenter> iterator = presenterList.iterator();
