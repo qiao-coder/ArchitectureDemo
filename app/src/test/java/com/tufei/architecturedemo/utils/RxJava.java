@@ -1,5 +1,6 @@
 package com.tufei.architecturedemo.utils;
 
+import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
@@ -17,5 +18,7 @@ public class RxJava {
     public static void asyncToSync() {
         RxJavaPlugins.reset();
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
+        RxAndroidPlugins.reset();
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> Schedulers.trampoline());
     }
 }
