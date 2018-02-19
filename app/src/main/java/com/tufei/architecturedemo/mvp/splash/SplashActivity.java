@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.tufei.architecturedemo.R;
 import com.tufei.architecturedemo.base.mvp.BaseActivity;
-import com.tufei.architecturedemo.mvp.Single.SingleActivity;
+import com.tufei.architecturedemo.mvp.single.SingleActivity;
 import com.tufei.architecturedemo.mvp.face.FaceActivity;
 import com.tufei.architecturedemo.mvp.main.MainActivity;
 import com.tufei.architecturedemo.utils.LogUtil;

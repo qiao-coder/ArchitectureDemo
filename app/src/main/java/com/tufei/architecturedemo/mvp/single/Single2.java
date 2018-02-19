@@ -1,4 +1,4 @@
-package com.tufei.architecturedemo.mvp.Single;
+package com.tufei.architecturedemo.mvp.single;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

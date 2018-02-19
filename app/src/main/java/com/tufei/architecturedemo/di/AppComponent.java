@@ -3,7 +3,7 @@ package com.tufei.architecturedemo.di;
 import android.app.Application;
 
 import com.tufei.architecturedemo.App;
-import com.tufei.architecturedemo.mvp.Single.SingleModule;
+import com.tufei.architecturedemo.mvp.single.SingleModule;
 import com.tufei.architecturedemo.net.HttpService;
 import com.tufei.architecturedemo.net.NetModule;
 
