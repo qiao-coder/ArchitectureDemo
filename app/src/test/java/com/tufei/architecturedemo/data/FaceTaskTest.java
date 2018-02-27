@@ -1,11 +1,17 @@
 package com.tufei.architecturedemo.data;
 
 import com.tufei.architecturedemo.data.bean.UserBean;
-import com.tufei.architecturedemo.utils.BaseTest;
+import com.tufei.architecturedemo.net.HttpService;
+import com.tufei.architecturedemo.net.RetrofitFactory;
+import com.tufei.architecturedemo.utils.RobolectricRule;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +20,11 @@ import java.io.InputStream;
  * @author tufei
  * @date 2017/11/15.
  */
-public class FaceTaskTest extends BaseTest {
+@RunWith(RobolectricTestRunner.class)
+public class FaceTaskTest {
+
+    @Rule
+    public RobolectricRule mRobolectricRule = new RobolectricRule();
 
     private FaceTask mFaceTask;
     private String ID = "1";
@@ -24,9 +34,12 @@ public class FaceTaskTest extends BaseTest {
 
     private String NO_MATCH_FACE_FILE_NAME = "wuyanzu.jpg";
     private String NO_FACE_FILE_NAME = "noface.png";
+    private HttpService mHttpService;
 
     @Before
     public void setup() {
+        MockitoAnnotations.initMocks(this);
+        mHttpService = RetrofitFactory.createHttpService();
         mFaceTask = new FaceTask(mHttpService);
         mFaceTask.getAccessToken().test();
     }
@@ -67,6 +80,7 @@ public class FaceTaskTest extends BaseTest {
                 .test()
                 .assertNoErrors();
     }
+
     @Test
     public void testRecognizeFace_noFace() throws Exception {
         byte[] bytes = fileToBytes(FACE_FILE_NAME);
@@ -83,6 +97,7 @@ public class FaceTaskTest extends BaseTest {
                 .test()
                 .assertError(Exception.class);
     }
+
     @Test
     public void testRecognizeFace_noMatchFace() throws Exception {
 
@@ -107,7 +122,7 @@ public class FaceTaskTest extends BaseTest {
                 .assertNoErrors();
     }
 
-    private byte[] fileToBytes(String fileName) throws IOException{
+    private byte[] fileToBytes(String fileName) throws IOException {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
         int len;
         byte[] bytes;

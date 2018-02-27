@@ -4,8 +4,6 @@ import com.tufei.architecturedemo.BuildConfig;
 import com.tufei.architecturedemo.data.VersionTask;
 import com.tufei.architecturedemo.data.bean.VersionBean;
 import com.tufei.architecturedemo.utils.AppUtil;
-import com.tufei.architecturedemo.utils.Log;
-import com.tufei.architecturedemo.utils.RxJava;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -51,10 +49,6 @@ public class SplashPresenterTest {
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
         PowerMockito.mockStatic(AppUtil.class);
-        //Robolectric日志输出(能输出代码块里面的log)
-        Log.out();
-        //RxJava异步代码，变同步，用于测试
-        RxJava.asyncToSync();
         mSplashPresenter = new SplashPresenter(versionTask, RuntimeEnvironment.application);
         mSplashPresenter.onAttachView(splashActivity);
     }
