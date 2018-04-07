@@ -10,7 +10,7 @@ import com.tufei.architecturedemo.utils.RxUtil;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import okhttp3.ResponseBody;
 
 /**
@@ -29,7 +29,7 @@ public class VersionTask {
     }
 
 
-    public Observable<VersionBean> getVersion() {
+    public Single<VersionBean> getVersion() {
         return mHttpService.getVersion()
                 .compose(RxUtil.io_main_handleHttpResult());
     }

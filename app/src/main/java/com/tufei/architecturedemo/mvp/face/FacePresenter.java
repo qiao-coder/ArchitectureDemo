@@ -53,7 +53,7 @@ public class FacePresenter extends BasePresenter implements FaceContract.Present
         addDisposable(
                 mFaceTask
                         .saveFace(bytes, userBean)
-                        .subscribe(httpResult -> mView.showToast("保存人脸成功"),
+                        .subscribe(() -> mView.showToast("保存人脸成功"),
                                 throwable -> mView.showToast("保存人脸失败，失败原因："
                                         + throwable.getMessage())));
     }
@@ -67,7 +67,7 @@ public class FacePresenter extends BasePresenter implements FaceContract.Present
                                 mView.showToast("识别人脸成功!\n姓名：" +
                                         userBean.getName() + "\n评价：" + userBean.getEvaluation()),
                         throwable ->
-                                mView.showToast("识别人脸失败,失败原因："+throwable.getMessage()));
+                                mView.showToast("识别人脸失败,失败原因：" + throwable.getMessage()));
         addDisposable(disposable);
     }
 

@@ -19,7 +19,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -58,7 +58,7 @@ public class SplashPresenterTest {
         VersionBean versionBean = new VersionBean();
         versionBean.setVersion("1.0");
         versionBean.setPath("www.baidu.com");
-        when(versionTask.getVersion()).thenReturn(Observable.just(versionBean));
+        when(versionTask.getVersion()).thenReturn(Single.just(versionBean));
         when(AppUtil.getVersion(any())).thenReturn("1.0");
         mSplashPresenter.checkUpdate();
         verify(splashActivity).showMainActivity();
@@ -69,7 +69,7 @@ public class SplashPresenterTest {
         VersionBean versionBean = new VersionBean();
         versionBean.setVersion("1.1");
         versionBean.setPath("www.baidu.com");
-        when(versionTask.getVersion()).thenReturn(Observable.just(versionBean));
+        when(versionTask.getVersion()).thenReturn(Single.just(versionBean));
         when(AppUtil.getVersion(any())).thenReturn("1.0");
         mSplashPresenter.checkUpdate();
         verify(splashActivity).showUpdateTipDialog(versionBean.getPath());

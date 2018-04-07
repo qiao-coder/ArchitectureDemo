@@ -9,6 +9,7 @@ import java.util.Map;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import okhttp3.FormBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -32,7 +33,7 @@ public interface HttpService {
      * @return
      */
     @GET("software/upgrade")
-    Observable<HttpResult<VersionBean>> getVersion();
+    Single<HttpResult<VersionBean>> getVersion();
 
     /**
      * 版本更新(下载应该使用Flowable，而不是Observable，避免背压问题)
@@ -54,7 +55,7 @@ public interface HttpService {
      */
     @FormUrlEncoded
     @POST
-    Observable<AccessToken> getAccessToken(@Url String accessTokenUrl, @FieldMap Map<String, String> params);
+    Single<AccessToken> getAccessToken(@Url String accessTokenUrl, @FieldMap Map<String, String> params);
 
 
     /**
@@ -64,7 +65,7 @@ public interface HttpService {
      * @param body
      */
     @POST("faceset/user/add")
-    Observable<FaceHttpResult> saveFace(@Body FormBody body);
+    Single<FaceHttpResult> saveFace(@Body FormBody body);
 
     /**
      * 识别人脸
@@ -73,7 +74,7 @@ public interface HttpService {
      * @return
      */
     @POST("identify")
-    Observable<FaceHttpResult<List<RecognizeResult>>> recognizeFace(@Body FormBody photoBytes);
+    Single<FaceHttpResult<List<RecognizeResult>>> recognizeFace(@Body FormBody photoBytes);
 
     /**
      * 删除人脸
@@ -82,6 +83,6 @@ public interface HttpService {
      * @return
      */
     @POST("faceset/user/delete")
-    Observable<FaceHttpResult> deleteFace(@Body FormBody body);
+    Single<FaceHttpResult> deleteFace(@Body FormBody body);
 
 }

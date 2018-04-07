@@ -16,7 +16,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Completable;
+import io.reactivex.Single;
 import okhttp3.FormBody;
 
 
@@ -53,7 +54,7 @@ public class FaceTask {
      *
      * @return
      */
-    public Observable<AccessToken> getAccessToken() {
+    public Single<AccessToken> getAccessToken() {
         //阿里巴巴代码规范：【HashMap】初始化时，尽量指定初始值大小
         //如果暂时无法确定集合大小，那么指定默认值（16）即可。
         Map<String, String> params = new HashMap<>(3);
@@ -62,7 +63,7 @@ public class FaceTask {
         params.put(FaceConstants.CLIENT_SECRET, FaceConstants.CLIENT_SECRET_VALUE);
         return mHttpService.getAccessToken(FaceConstants.ACCESS_TOKEN_URL, params)
                 .compose(RxUtil.io_main())
-                .doOnNext(accessToken -> FaceConstants.ACCESS_TOKEN_VALUE = accessToken.getAccessToken())
+                .doOnSuccess(accessToken -> FaceConstants.ACCESS_TOKEN_VALUE = accessToken.getAccessToken())
                 .retry(3);
     }
 
@@ -73,7 +74,7 @@ public class FaceTask {
      * @param userBean
      * @return
      */
-    public Observable<FaceHttpResult> saveFace(byte[] photoBytes, UserBean userBean) {
+    public Completable saveFace(byte[] photoBytes, UserBean userBean) {
         String json = new Gson().toJson(userBean);
         FormBody body = new FormBody.Builder()
                 .add(FaceConstants.ACCESS_TOKEN, FaceConstants.ACCESS_TOKEN_VALUE)
@@ -85,7 +86,8 @@ public class FaceTask {
                 .add(FaceConstants.IMAGE, Base64Util.encode(photoBytes))
                 .build();
         return mHttpService.saveFace(body)
-                .compose(RxUtil.io_main_handleFaceNoData());
+                .compose(RxUtil.io_main_handleFaceNoData())
+                .flatMapCompletable(faceHttpResult -> Completable.complete());
     }
 
     /**
@@ -94,7 +96,7 @@ public class FaceTask {
      * @param photoBytes
      * @return
      */
-    public Observable<UserBean> recognizeFace(byte[] photoBytes) {
+    public Single<UserBean> recognizeFace(byte[] photoBytes) {
         FormBody body = new FormBody.Builder()
                 .add(FaceConstants.ACCESS_TOKEN, FaceConstants.ACCESS_TOKEN_VALUE)
                 .add(FaceConstants.GROUP_ID, FaceConstants.GROUP_ID_VALUE)
@@ -112,7 +114,7 @@ public class FaceTask {
      * @param id
      * @return
      */
-    public Observable<FaceHttpResult> deleteFace(String id) {
+    public Single<FaceHttpResult> deleteFace(String id) {
         FormBody body = new FormBody.Builder()
                 .add(FaceConstants.ACCESS_TOKEN, FaceConstants.ACCESS_TOKEN_VALUE)
                 .add(FaceConstants.GROUP_ID, FaceConstants.GROUP_ID_VALUE)
@@ -122,15 +124,15 @@ public class FaceTask {
                 compose(RxUtil.io_main_handleFaceNoData());
     }
 
-    private Observable<UserBean> getUser(List<RecognizeResult> recognizeResults) {
-        return Observable.just(recognizeResults.get(0)).
+    private Single<UserBean> getUser(List<RecognizeResult> recognizeResults) {
+        return Single.just(recognizeResults.get(0)).
                 flatMap(recognizeResult -> {
                     Double score = recognizeResult.getScores().get(0);
                     UserBean user = new Gson().fromJson(recognizeResult.getUser_info(), UserBean.class);
                     if (score > minMatchScore) {
-                        return Observable.just(user);
+                        return Single.just(user);
                     } else {
-                        return Observable.error(new Exception("人脸匹配度不够"));
+                        return Single.error(new Exception("人脸匹配度不够"));
                     }
                 });
     }

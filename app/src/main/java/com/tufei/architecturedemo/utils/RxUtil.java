@@ -5,6 +5,8 @@ import com.tufei.architecturedemo.net.HttpResult;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.Single;
+import io.reactivex.SingleTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -15,11 +17,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RxUtil {
 
-    public static <T> ObservableTransformer<T, T> io_main() {
+    public static <T> SingleTransformer<T, T> io_main() {
         return upstream -> upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T> ObservableTransformer<T, T> all_io() {
+    public static <T> SingleTransformer<T, T> all_io() {
         return upstream -> upstream.subscribeOn(Schedulers.io()).observeOn(Schedulers.io());
     }
 
@@ -30,7 +32,7 @@ public class RxUtil {
      * 如果对{@link HttpResult#data}不关心，即使data为空也无所谓的时候，
      * 只在乎网络请求的结果{@link HttpResult#success}，
      * 那么请用{@link #io_main_handleNoData()},因为RxJava不允许发送null
-     *
+     * <p>
      * 使用的时候，
      * 如果{@link HttpResult#data}是一串json，这么写：Observable<HttpResult<Bean>>
      * 如果{@link HttpResult#data}是一组json，这么写：Observable<HttpResult<List<Bean>>>
@@ -38,20 +40,21 @@ public class RxUtil {
      * @param <T>
      * @return
      */
-    public static <T> ObservableTransformer<HttpResult<T>, T> io_main_handleHttpResult() {
+    public static <T> SingleTransformer<HttpResult<T>, T> io_main_handleHttpResult() {
         return httpResultObservable ->
                 httpResultObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                        .flatMap(httpResult->{
+                        .flatMap(httpResult -> {
                             if (httpResult.isSuccess()) {
-                                return Observable.just(httpResult.getData());
+                                return Single.just(httpResult.getData());
                             } else {
-                                return Observable.error(new Exception(httpResult.getErrmsg()));
+                                return Single.error(new Exception(httpResult.getErrmsg()));
                             }
                         });
     }
 
     /**
      * 使用的时候，这么写：Observable<HttpResult>
+     *
      * @return
      */
     public static ObservableTransformer<HttpResult, HttpResult> io_main_handleNoData() {
@@ -78,30 +81,31 @@ public class RxUtil {
      * @param <T>
      * @return
      */
-    public static <T> ObservableTransformer<FaceHttpResult<T>, T> io_main_handleFaceHttpResult() {
+    public static <T> SingleTransformer<FaceHttpResult<T>, T> io_main_handleFaceHttpResult() {
         return httpResultObservable ->
                 httpResultObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
-                        flatMap(httpResult->{
+                        flatMap(httpResult -> {
                             if (httpResult.getErrorCode() != 0 || httpResult.getErrorMsg() != null) {
-                                return Observable.error(new Exception(httpResult.getErrorMsg()));
+                                return Single.error(new Exception(httpResult.getErrorMsg()));
                             } else {
-                                return Observable.just(httpResult.getResult());
+                                return Single.just(httpResult.getResult());
                             }
                         });
     }
 
     /**
-     * 使用的时候，这么写：Observable<FaceHttpResult>
+     * 使用的时候，这么写：Single<FaceHttpResult>
+     *
      * @return
      */
-    public static ObservableTransformer<FaceHttpResult, FaceHttpResult> io_main_handleFaceNoData() {
+    public static SingleTransformer<FaceHttpResult, FaceHttpResult> io_main_handleFaceNoData() {
         return httpResultObservable ->
                 httpResultObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
                         flatMap(httpResult -> {
                             if (httpResult.getErrorCode() != 0 || httpResult.getErrorMsg() != null) {
-                                return Observable.error(new Exception(httpResult.getErrorMsg()));
+                                return Single.error(new Exception(httpResult.getErrorMsg()));
                             } else {
-                                return Observable.just(httpResult);
+                                return Single.just(httpResult);
                             }
                         });
     }
