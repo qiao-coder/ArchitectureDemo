@@ -12,4 +12,4 @@ dagger相关的注释，摘录自谷歌demo。
 
 
 ### 单元测试
-暂时只有使用Robolectric测试网络接口的示例代码。Robolectric的集成可参考放在项目里的文档：robolectric集成与各种bug.docx。
+暂时只有使用Robolectric测试网络接口的示例代码。
